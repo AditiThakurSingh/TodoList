@@ -4,6 +4,7 @@ const bodyParser = require ("body-parser")
 const mongoose = require ("mongoose")
 const _= require ("lodash")
 const { urlencoded } = require("body-parser")
+require('dotenv').config();
 // const { redirect } = require("express/lib/response")
 const app = express();
 
@@ -59,9 +60,10 @@ const List = mongoose.model("List",listSchema);
 
 
 app.get("/",function(req,res){
-    // var date= new Date()
-    // var daynumber= date.getDay()
-    // var day= ""
+
+    var date= new Date()
+    var daynumber= date.getDay()
+    var day= ""
     
     // switch (daynumber) {
     //     case 0:
@@ -91,16 +93,17 @@ app.get("/",function(req,res){
     //         break;
     // }
 
-    // var today= new Date();
-    // var options= 
-    // {
-    //     weekday:'long',
-    //     day:'numeric',
-    //     month:'long',
+    var today= new Date();
+    var options= 
+    {
+        weekday:'long',
+        day:'numeric',
+        month:'long',
 
-    // }
-    // var day= today.toLocaleDateString("en-US",options);
-        // res.render("List", {listTitle: day,newitems: items})
+    }
+    var day= today.toLocaleDateString("en-US",options);
+    console.log(day);
+        // res.write("List", {todaysDate: day});
         
         Item.find({}, function(err,foundTasks){
             // console.log(data); 
@@ -119,7 +122,7 @@ app.get("/",function(req,res){
 
                 res.redirect("/")
             } else {
-            res.render("List", {listTitle: "Tasks for the day",newitems: foundTasks})
+            res.render("List", {listTitle: "Tasks for the day",newitems: foundTasks});
             }
         })
 })
@@ -144,7 +147,7 @@ app.get("/:customListName",function(req,res){
             } else {
                 // Then go to that list
                 // console.log("Exists");
-                console.log(listname.item);
+                // console.log(listname.item);
                 res.render("List", {listTitle: listname.name,newitems: listname.item})
             }
         }
