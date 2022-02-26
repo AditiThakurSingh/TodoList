@@ -49,49 +49,13 @@ const List = mongoose.model("List",listSchema);
 //     }
 // })
 
-
-// var items= []
-// var workitems = []
-
-// app.get("/", function (req,res){
-//     res.send("server functioning")
-// })
-
-
-
 app.get("/",function(req,res){
 
     var date= new Date()
     var daynumber= date.getDay()
     var day= ""
     
-    // switch (daynumber) {
-    //     case 0:
-    //         day= "Sunday"
-    //         break;
-    //         case 1:
-    //         day= "Monday"
-    //         break;
-    //         case 2:
-    //         day= "Tuesday"
-    //         break;
-    //         case 3:
-    //         day= "Wednesday"
-    //         break;
-    //         case 4:
-    //         day= "Thursday"
-    //         break;
-    //         case 5:
-    //         day= "Friday"
-    //         break;
-    //         case 6:
-    //         day= "Saturday"
-    //         break;
-                
-    //     default:
-    //         console.log("date not valid");
-    //         break;
-    // }
+    
 
     var today= new Date();
     var options= 
@@ -102,23 +66,25 @@ app.get("/",function(req,res){
 
     }
     var day= today.toLocaleDateString("en-US",options);
-    console.log(day);
+    // console.log(day);
         // res.write("List", {todaysDate: day});
         
         Item.find({}, function(err,foundTasks){
-            // console.log(data); 
+            // console.log(data);
+            console.log(err); 
             if(foundTasks.length==0){
                 const task1= new Item ({
-                    name: "Drink Water",
+                    name: " ",
                 });
                 
                 const task2= new Item ({
-                    name: "Exercise",
+                    name: "Hi! Start by adding a task below.",
                 });
                 
                 const task3= new Item ({
                     name: "Go to sleep",
                 });
+                task2.save();
 
                 res.redirect("/")
             } else {
@@ -153,25 +119,9 @@ app.get("/:customListName",function(req,res){
         }
     }); 
 
-    // const list= new List({
-    //     name:customListName,
-    //     item:defaulttasks,
-    // })
-    // list.save();
 })
 
 app.post('/', function(req,res){
-//    var listname= req.body
-//     if (listname == 'Work List'){
-//         var workitem= req.body.listitem
-//         workitems.push(workitem);
-//         res.redirect("/work");
-//     } else{
-//         var item= req.body.listitem
-//     items.push(item);
-//     // console.log(req.body);
-//     res.redirect("/");
-//     }
     
       const newListItem = req.body.listitem;
     //   console.log(newListItem);
@@ -222,13 +172,6 @@ app.post('/', function(req,res){
 app.get('/work',function(req,res){
     res.render("List", {listTitle: "Work List",newitems: workitems});
 })
-
-// app.post('/work',function(req,res){
-   
-//     var workitem= req.body.listitem
-//     workitems.push(workitem);
-//     res.redirect("/work");
-// })
 app.listen(3000,()=>{
     console.log("server started")
 })
